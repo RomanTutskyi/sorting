@@ -36,7 +36,7 @@ def check_path():
         exit()
 
     main_folder = true_folder
-    translate()
+    
     check_files(true_folder)
 
 def check_files(folder: Path):
@@ -66,8 +66,8 @@ def sort(file: Path):
         if file_suffix in values:
             zero_station = key 
     if zero_station != 0: 
-        norm_name = normalize(file_name)
-        new_file_name = norm_name + file_suffix
+        
+        new_file_name = file_name + file_suffix
         
         end_folder = main_folder.joinpath(zero_station)
 
@@ -78,11 +78,11 @@ def sort(file: Path):
             file.rename(new_file_path)
         except FileExistsError:
             time_stamp = time.time()
-            new_file_path = end_folder.joinpath(norm_name + '_' + str(time_stamp) + file_suffix)
+            new_file_path = end_folder.joinpath (file_name + '_' + str(time_stamp) + file_suffix)
             file.rename(new_file_path)
     else:
-        norm_name = normalize(file_name)
-        new_file_name = norm_name + file_suffix
+        
+        new_file_name = file_name + file_suffix
         
         end_folder = main_folder.joinpath('Another')
 
@@ -93,47 +93,9 @@ def sort(file: Path):
             file.rename(new_file_path)
         except FileExistsError:
             time_stamp = time.time()
-            new_file_path = end_folder.joinpath(norm_name + '_' + str(time_stamp) + file_suffix)
+            new_file_path = end_folder.joinpath(file_name + '_' + str(time_stamp) + file_suffix)
             file.rename(new_file_path)
 
-def translate():
-    for cyril, latin in zip(CYRILLIC_SYMBOLS, TRANSLATION):
-        TRANS[ord(cyril)] = latin
-        TRANS[ord(cyril.upper())] = latin.upper()
-
-def normalize(file_name: str) -> str:
-    result = ""
-    
-    name =  file_name.split('.')
-    global ext 
-    ext = name.pop(-1)
-    name = '_'.join(name)
-    name = name.lower()
-    new_name = file_name.translate(TRANS)
-    
-    
-    some = re.findall(r'[a-zA-Z0-9]', new_name)
-    
-    for littera in name:
-        if littera not in some:
-            result += '_'
-            continue 
-        else:
-            result += littera
-    result =  result + '.' + ext 
-    namedir = os.path.dirname(file_name)
-    new_filepath = os.path.join(namedir, result)
-    
-    
-    if str(file_name) == str(new_filepath):
-        print("| No need changes")
-        print("|{}".format("-"*50))
-    
-    for symvol in new_name:
-        if not symvol.isdigit() and not symvol.isalpha() and symvol != '_':
-            new_name = new_name.replace(symvol, '_')
-    print(result,'Name have normal name')
-    return new_name
 
 if __name__ == '__main__':
     
