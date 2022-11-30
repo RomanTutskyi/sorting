@@ -44,12 +44,8 @@ def check_files(folder: Path):
 
         if file.is_file():
             
-            
             sort(file)
             
-            
-            
-
         if file.is_dir():
             
             check_files(file)
@@ -88,7 +84,7 @@ def sort(file: Path):
         norm_name = normalize(file_name)
         new_file_name = norm_name + file_suffix
         
-        end_folder = main_folder.joinpath('another')
+        end_folder = main_folder.joinpath('Another')
 
         
         end_folder.mkdir(exist_ok=True)
